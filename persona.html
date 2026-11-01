@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MAUSAM - What Matters to You?</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #ffffff;
+            min-height: 100vh;
+
+            background-image:
+                linear-gradient(rgba(0, 30, 60, 0.45), rgba(0, 20, 45, 0.65)),
+                url("mausam-background.png");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            width: 100%;
+            padding: 20px 50px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            background: rgba(0, 20, 45, 0.45);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.20);
+
+            backdrop-filter: blur(8px);
+        }
+
+
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+
+        .logo span {
+            color: #8ed8ff;
+        }
+
+
+        .user-info {
+            text-align: right;
+            font-size: 14px;
+        }
+
+
+        .user-name {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+
+        .user-location {
+            margin-top: 4px;
+            opacity: 0.8;
+        }
+
+
+        /* =========================
+           MAIN AREA
+        ========================= */
+
+        main {
+            width: 90%;
+            max-width: 1100px;
+
+            margin: 0 auto;
+
+            padding: 55px 0 70px;
+
+            text-align: center;
+        }
+
+
+        .welcome {
+            font-size: 17px;
+            opacity: 0.9;
+            margin-bottom: 12px;
+        }
+
+
+        h1 {
+            font-size: 42px;
+            margin: 5px 0 15px;
+        }
+
+
+        .subtitle {
+            max-width: 700px;
+
+            margin: 0 auto 35px;
+
+            line-height: 1.6;
+
+            font-size: 17px;
+
+            color: #e8f7ff;
+        }
+
+
+        /* =========================
+           SELECTION INFORMATION
+        ========================= */
+
+        .selection-info {
+            display: inline-block;
+
+            padding: 10px 18px;
+
+            margin-bottom: 30px;
+
+            border-radius: 25px;
+
+            background: rgba(255, 255, 255, 0.12);
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+
+            font-size: 14px;
+
+            color: #e7f7ff;
+        }
+
+
+        /* =========================
+           INTEREST CARDS
+        ========================= */
+
+        .interest-container {
+
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 20px;
+
+            max-width: 900px;
+
+            margin: 0 auto;
+        }
+
+
+        .interest-card {
+
+            position: relative;
+
+            padding: 25px;
+
+            min-height: 155px;
+
+            text-align: left;
+
+            border-radius: 20px;
+
+            background: rgba(255, 255, 255, 0.13);
+
+            border: 2px solid rgba(255, 255, 255, 0.20);
+
+            backdrop-filter: blur(10px);
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .interest-card:hover {
+
+            transform: translateY(-4px);
+
+            background: rgba(255, 255, 255, 0.20);
+
+            border-color: rgba(255, 255, 255, 0.45);
+        }
+
+
+        .interest-card.selected {
+
+            background: rgba(70, 170, 220, 0.28);
+
+            border-color: #8ed8ff;
+
+            box-shadow: 0 0 20px rgba(142, 216, 255, 0.25);
+        }
+
+
+        /* =========================
+           ICON
+        ========================= */
+
+        .interest-icon {
+
+            font-size: 34px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .interest-title {
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+
+        .interest-description {
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            color: #dcefff;
+
+            max-width: 380px;
+        }
+
+
+        /* =========================
+           SELECTION CIRCLE
+        ========================= */
+
+        .selection-circle {
+
+            position: absolute;
+
+            top: 20px;
+
+            right: 20px;
+
+            width: 25px;
+
+            height: 25px;
+
+            border-radius: 50%;
+
+            border: 2px solid rgba(255, 255, 255, 0.75);
+
+            background: transparent;
+        }
+
+
+        .interest-card.selected .selection-circle {
+
+            background: #8ed8ff;
+
+            border-color: #8ed8ff;
+        }
+
+
+        .interest-card.selected .selection-circle::after {
+
+            content: "✓";
+
+            display: block;
+
+            text-align: center;
+
+            line-height: 21px;
+
+            font-size: 15px;
+
+            color: #06334d;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           CONTINUE AREA
+        ========================= */
+
+        .continue-area {
+
+            margin-top: 40px;
+        }
+
+
+        .continue-button {
+
+            padding: 15px 50px;
+
+            border: none;
+
+            border-radius: 30px;
+
+            background: #ffffff;
+
+            color: #07527c;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .continue-button:hover {
+
+            transform: translateY(-2px);
+
+            background: #dff5ff;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+        }
+
+
+        .continue-button:disabled {
+
+            opacity: 0.5;
+
+            cursor: not-allowed;
+
+            transform: none;
+
+            box-shadow: none;
+        }
+
+
+        .message {
+
+            margin-top: 15px;
+
+            font-size: 14px;
+
+            color: #cceeff;
+
+            min-height: 20px;
+        }
+
+
+        /* =========================
+           NOTE
+        ========================= */
+
+        .bottom-note {
+
+            margin-top: 35px;
+
+            max-width: 720px;
+
+            margin-left: auto;
+
+            margin-right: auto;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+
+        /* =========================
+           MOBILE RESPONSIVE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            header {
+
+                padding: 18px 22px;
+
+            }
+
+
+            .logo {
+
+                font-size: 24px;
+
+            }
+
+
+            .user-info {
+
+                font-size: 12px;
+
+            }
+
+
+            .user-name {
+
+                font-size: 14px;
+
+            }
+
+
+            main {
+
+                width: 92%;
+
+                padding-top: 40px;
+
+            }
+
+
+            h1 {
+
+                font-size: 32px;
+
+            }
+
+
+            .subtitle {
+
+                font-size: 15px;
+
+            }
+
+
+            .interest-container {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .interest-card {
+
+                min-height: 140px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header>
+
+        <div class="logo">
+            <span>☁</span> MAUSAM
+        </div>
+
+
+        <div class="user-info">
+
+            <div class="user-name" id="displayName">
+                Welcome
+            </div>
+
+            <div class="user-location" id="displayLocation">
+                📍 Location
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
+
+    <main>
+
+
+        <div class="welcome">
+            Personalize your MAUSAM experience
+        </div>
+
+
+        <h1>
+            What matters to you?
+        </h1>
+
+
+        <p class="subtitle">
+
+            Choose the things that matter most to you.
+            MAUSAM will prioritize the weather information,
+            recommendations and alerts that are relevant to your everyday needs.
+
+        </p>
+
+
+        <div class="selection-info" id="selectionInfo">
+
+            Select one or more interests
+
+        </div>
+
+
+
+        <!-- =========================
+             INTEREST OPTIONS
+        ========================= -->
+
+        <div class="interest-container">
+
+
+            <!-- TRAVELER -->
+
+            <div class="interest-card"
+                 onclick="selectInterest('traveler', this)">
+
+                <div class="selection-circle"></div>
+
+                <div class="interest-icon">
+                    ✈️
+                </div>
+
+                <div class="interest-title">
+                    Traveler
+                </div>
+
+                <div class="interest-description">
+
+                    Destination weather, travel conditions,
+                    visibility, rain and safety information.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- HEALTH & FITNESS -->
+
+            <div class="interest-card"
+                 onclick="selectInterest('health', this)">
+
+                <div class="selection-circle"></div>
+
+                <div class="interest-icon">
+                    🏃
+                </div>
+
+                <div class="interest-title">
+                    Health & Fitness
+                </div>
+
+                <div class="interest-description">
+
+                    AQI, UV, temperature, wind and suitable
+                    conditions for outdoor activities.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FARMING -->
+
+            <div class="interest-card"
+                 onclick="selectInterest('farmer', this)">
+
+                <div class="selection-circle"></div>
+
+                <div class="interest-icon">
+                    🌾
+                </div>
+
+                <div class="interest-title">
+                    Farming
+                </div>
+
+                <div class="interest-description">
+
+                    Crop-weather conditions, rainfall,
+                    sowing windows and farming recommendations.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FAMILY -->
+
+            <div class="interest-card"
+                 onclick="selectInterest('family', this)">
+
+                <div class="selection-circle"></div>
+
+                <div class="interest-icon">
+                    👨‍👩‍👧
+                </div>
+
+                <div class="interest-title">
+                    Family
+                </div>
+
+                <div class="interest-description">
+
+                    Weather information focused on children,
+                    elderly members and family safety.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- COMMUTER -->
+
+            <div class="interest-card"
+                 onclick="selectInterest('commuter', this)">
+
+                <div class="selection-circle"></div>
+
+                <div class="interest-icon">
+                    🚌
+                </div>
+
+                <div class="interest-title">
+                    Daily Commute
+                </div>
+
+                <div class="interest-description">
+
+                    Rain, visibility, wind and weather conditions
+                    that may affect your daily travel.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- EVENTS -->
+
+            <div class="interest-card"
+                 onclick="selectInterest('events', this)">
+
+                <div class="selection-circle"></div>
+
+                <div class="interest-icon">
+                    🎪
+                </div>
+
+                <div class="interest-title">
+                    Events
+                </div>
+
+                <div class="interest-description">
+
+                    Outdoor suitability, rain probability,
+                    comfort and weather conditions for events.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DAILY LIFE -->
+
+            <div class="interest-card"
+                 onclick="selectInterest('daily', this)">
+
+                <div class="selection-circle"></div>
+
+                <div class="interest-icon">
+                    🏠
+                </div>
+
+                <div class="interest-title">
+                    Daily Life
+                </div>
+
+                <div class="interest-description">
+
+                    Everyday weather-based information
+                    and useful recommendations.
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             CONTINUE
+        ========================= -->
+
+        <div class="continue-area">
+
+            <button
+                class="continue-button"
+                id="continueButton"
+                onclick="continueToHome()"
+                disabled>
+
+                Continue
+
+            </button>
+
+
+            <div class="message" id="message"></div>
+
+        </div>
+
+
+
+        <p class="bottom-note">
+
+            Your selections do not remove other weather information.
+            They help MAUSAM decide what should appear first
+            and what information may be most useful to you.
+
+        </p>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+
+        /* =====================================
+           GET USER INFORMATION
+        ===================================== */
+
+        var userName = localStorage.getItem("userName");
+
+        var userCity = localStorage.getItem("userCity");
+
+
+        if (userName) {
+
+            document.getElementById("displayName").innerHTML =
+                "Welcome, " + userName + "!";
+
+        }
+
+
+        if (userCity) {
+
+            document.getElementById("displayLocation").innerHTML =
+                "📍 " + userCity;
+
+        }
+
+
+
+        /* =====================================
+           STORE SELECTED INTERESTS
+        ===================================== */
+
+        var selectedInterests = [];
+
+
+
+        /* =====================================
+           SELECT / UNSELECT INTEREST
+        ===================================== */
+
+        function selectInterest(interest, card) {
+
+
+            var position = selectedInterests.indexOf(interest);
+
+
+            /* -----------------------------
+               REMOVE IF ALREADY SELECTED
+            ----------------------------- */
+
+            if (position !== -1) {
+
+                selectedInterests.splice(position, 1);
+
+                card.classList.remove("selected");
+
+            }
+
+
+            /* -----------------------------
+               ADD NEW INTEREST
+            ----------------------------- */
+
+            else {
+
+                selectedInterests.push(interest);
+
+                card.classList.add("selected");
+
+            }
+
+
+            updateSelection();
+
+        }
+
+
+
+        /* =====================================
+           UPDATE SELECTION MESSAGE
+        ===================================== */
+
+        function updateSelection() {
+
+
+            var info =
+                document.getElementById("selectionInfo");
+
+            var button =
+                document.getElementById("continueButton");
+
+
+            if (selectedInterests.length === 0) {
+
+                info.innerHTML =
+                    "Select one or more interests";
+
+                button.disabled = true;
+
+            }
+
+            else if (selectedInterests.length === 1) {
+
+                info.innerHTML =
+                    "1 interest selected";
+
+                button.disabled = false;
+
+            }
+
+            else {
+
+                info.innerHTML =
+                    selectedInterests.length +
+                    " interests selected";
+
+                button.disabled = false;
+
+            }
+
+        }
+
+
+
+        /* =====================================
+           CONTINUE TO HOME PAGE
+        ===================================== */
+
+        function continueToHome() {
+
+
+            if (selectedInterests.length === 0) {
+
+                document.getElementById("message").innerHTML =
+                    "Please select at least one interest.";
+
+                return;
+
+            }
+
+
+            /* --------------------------------
+               SAVE SELECTED INTERESTS
+            -------------------------------- */
+
+            localStorage.setItem(
+                "selectedInterests",
+                JSON.stringify(selectedInterests)
+            );
+
+
+            /* --------------------------------
+               SAVE MAIN PERSONA
+               FOR COMPATIBILITY WITH OLD CODE
+            -------------------------------- */
+
+            var mainPersona =
+                selectedInterests[0];
+
+
+            localStorage.setItem(
+                "persona",
+                mainPersona
+            );
+
+
+            /* --------------------------------
+               READABLE PERSONA NAME
+            -------------------------------- */
+
+            var personaNames = {
+
+                traveler: "Traveler",
+
+                health: "Health & Fitness",
+
+                farmer: "Farming",
+
+                family: "Family",
+
+                commuter: "Daily Commute",
+
+                events: "Events",
+
+                daily: "Daily Life"
+
+            };
+
+
+            localStorage.setItem(
+                "personaName",
+                personaNames[mainPersona]
+            );
+
+
+            /* --------------------------------
+               SHOW MESSAGE
+            -------------------------------- */
+
+            document.getElementById("message").innerHTML =
+                "Personalizing your MAUSAM homepage...";
+
+
+            /* --------------------------------
+               OPEN HOME PAGE
+            -------------------------------- */
+
+            setTimeout(function() {
+
+                window.location.href = "home.html";
+
+            }, 600);
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>MAUSAM - Weather</title>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url("mausam-background.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: white;
+}
+
+.header {
+    background: rgba(0, 0, 0, 0.55);
+    padding: 18px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.user {
+    font-size: 15px;
+}
+
+.main {
+    width: 90%;
+    max-width: 1100px;
+    margin: 30px auto;
+}
+
+.title {
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #dbeafe;
+    margin-bottom: 25px;
+}
+
+.location-box {
+    background: rgba(0, 0, 0, 0.55);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+}
+
+.location-box input {
+    width: 65%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.location-box button {
+    padding: 12px 18px;
+    margin-left: 8px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.current-weather {
+    background: rgba(0, 0, 0, 0.58);
+    padding: 25px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+}
+
+.current-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.temperature {
+    font-size: 60px;
+    font-weight: bold;
+}
+
+.condition {
+    font-size: 22px;
+    margin-top: 5px;
+}
+
+.weather-info {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.info-card {
+    background: rgba(255, 255, 255, 0.12);
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.info-card strong {
+    display: block;
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+.section {
+    background: rgba(0, 0, 0, 0.55);
+    padding: 25px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+}
+
+.section h2 {
+    margin-top: 0;
+}
+
+.timeline {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+}
+
+.time-card {
+    background: rgba(255, 255, 255, 0.12);
+    padding: 18px 10px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.time-card strong {
+    display: block;
+    font-size: 21px;
+    margin: 8px 0;
+}
+
+.change-box {
+    background: rgba(255, 193, 7, 0.18);
+    border-left: 5px solid #ffd54f;
+    padding: 18px;
+    border-radius: 10px;
+}
+
+.confidence {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.interpretation {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+    line-height: 1.6;
+}
+
+.forecast {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+}
+
+.forecast-card {
+    background: rgba(255, 255, 255, 0.12);
+    padding: 18px 10px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.forecast-card h3 {
+    margin-top: 0;
+}
+
+.focus-box {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 18px;
+    border-radius: 12px;
+    margin-top: 12px;
+}
+
+.navigation {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.navigation button {
+    padding: 12px 18px;
+    margin: 5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.note {
+    color: #dbeafe;
+    font-size: 13px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+@media screen and (max-width: 800px) {
+
+    .weather-info {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .timeline {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .forecast {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .current-top {
+        display: block;
+    }
+
+    .location-box input {
+        width: 90%;
+        margin-bottom: 10px;
+    }
+
+    .location-box button {
+        margin-left: 0;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <span class="logo">MAUSAM</span>
+
+    <span class="user">
+        Welcome, <span id="userName">User</span>
+    </span>
+
+</header>
+
+
+<main class="main">
+
+    <h1 class="title">Weather Intelligence</h1>
+
+    <p class="subtitle">
+        Weather information interpreted according to what matters to you.
+    </p>
+
+
+    <!-- LOCATION -->
+
+    <section class="location-box">
+
+        <h2>📍 Your Location</h2>
+
+        <input
+            type="text"
+            id="locationInput"
+            placeholder="Enter another location"
+        >
+
+        <button onclick="changeLocation()">
+            Check Weather
+        </button>
+
+        <p>
+            Showing weather for:
+            <strong id="locationName">Mumbai</strong>
+        </p>
+
+    </section>
+
+
+    <!-- CURRENT WEATHER -->
+
+    <section class="current-weather">
+
+        <div class="current-top">
+
+            <div>
+
+                <div class="temperature">28°C</div>
+
+                <div class="condition">
+                    Partly Cloudy
+                </div>
+
+                <p>
+                    Feels like 30°C
+                </p>
+
+            </div>
+
+            <div>
+
+                <p>🌥️ Current Conditions</p>
+
+                <p>Updated: Just now</p>
+
+            </div>
+
+        </div>
+
+
+        <div class="weather-info">
+
+            <div class="info-card">
+                💧 Humidity
+                <strong>72%</strong>
+            </div>
+
+            <div class="info-card">
+                💨 Wind
+                <strong>12 km/h</strong>
+            </div>
+
+            <div class="info-card">
+                🌧️ Rain Chance
+                <strong>75%</strong>
+            </div>
+
+            <div class="info-card">
+                ☀️ UV Index
+                <strong>6</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WEATHER TIMELINE -->
+
+    <section class="section">
+
+        <h2>🕒 Weather Timeline</h2>
+
+        <p>
+            See how the weather is expected to develop through the day.
+        </p>
+
+        <div class="timeline">
+
+            <div class="time-card">
+                <span>Now</span>
+                <strong>28°C</strong>
+                🌥️
+                <p>35% rain</p>
+            </div>
+
+            <div class="time-card">
+                <span>2 PM</span>
+                <strong>29°C</strong>
+                <strong>🌦️</strong>
+                <p>55% rain</p>
+            </div>
+
+            <div class="time-card">
+                <span>4 PM</span>
+                <strong>28°C</strong>
+                <strong>🌧️</strong>
+                <p>75% rain</p>
+            </div>
+
+            <div class="time-card">
+                <span>6 PM</span>
+                <strong>27°C</strong>
+                <strong>🌧️</strong>
+                <p>80% rain</p>
+            </div>
+
+            <div class="time-card">
+                <span>8 PM</span>
+                <strong>26°C</strong>
+                <strong>🌦️</strong>
+                <p>60% rain</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WEATHER EVOLUTION -->
+
+    <section class="section">
+
+        <h2>🌦️ Weather Evolution</h2>
+
+        <div class="change-box">
+
+            <h3>Important Weather Change</h3>
+
+            <p>
+                Rain probability is expected to increase during the
+                afternoon and evening.
+            </p>
+
+            <p>
+                The most likely period for rain is between
+                <strong>4 PM and 8 PM</strong>.
+            </p>
+
+            <p>
+                This information can help you plan outdoor activities,
+                travel and daily tasks.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- PERSONALIZED INTERPRETATION -->
+
+    <section class="section">
+
+        <h2>🧠 What This Means For You</h2>
+
+        <div class="interpretation" id="interpretation">
+
+            Loading personalized interpretation...
+
+        </div>
+
+    </section>
+
+
+    <!-- FORECAST CONFIDENCE -->
+
+    <section class="section">
+
+        <h2>📊 Forecast Confidence</h2>
+
+        <p>
+            Confidence indicates how consistent the forecast information
+            is across available prediction data.
+        </p>
+
+        <p class="confidence">
+            High Confidence — 86%
+        </p>
+
+        <p>
+            The current forecast shows relatively consistent conditions
+            for the next few days.
+        </p>
+
+    </section>
+
+
+    <!-- 5 DAY FORECAST -->
+
+    <section class="section">
+
+        <h2>📅 5-Day Forecast</h2>
+
+        <div class="forecast">
+
+            <div class="forecast-card">
+
+                <h3>Today</h3>
+
+                <p>🌥️</p>
+
+                <strong>28°C</strong>
+
+                <p>Rain 75%</p>
+
+            </div>
+
+
+            <div class="forecast-card">
+
+                <h3>Tomorrow</h3>
+
+                <p>🌧️</p>
+
+                <strong>29°C</strong>
+
+                <p>Rain 80%</p>
+
+            </div>
+
+
+            <div class="forecast-card">
+
+                <h3>Day 3</h3>
+
+                <p>🌦️</p>
+
+                <strong>30°C</strong>
+
+                <p>Rain 65%</p>
+
+            </div>
+
+
+            <div class="forecast-card">
+
+                <h3>Day 4</h3>
+
+                <p>⛅</p>
+
+                <strong>32°C</strong>
+
+                <p>Rain 30%</p>
+
+            </div>
+
+
+            <div class="forecast-card">
+
+                <h3>Day 5</h3>
+
+                <p>☀️</p>
+
+                <strong>33°C</strong>
+
+                <p>Rain 25%</p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PERSONALIZED WEATHER FOCUS -->
+
+    <section class="section">
+
+        <h2>🎯 Your Weather Focus</h2>
+
+        <div id="focusContainer"></div>
+
+    </section>
+
+
+    <!-- NAVIGATION -->
+
+    <div class="navigation">
+
+        <button onclick="goHome()">
+            🏠 Home
+        </button>
+
+        <button onclick="goAlerts()">
+            ⚠️ Alerts
+        </button>
+
+        <button onclick="goHazards()">
+            🛡️ Safety
+        </button>
+
+        <button onclick="goReport()">
+            📝 Report
+        </button>
+
+        <button onclick="goPersona()">
+            👤 Change Interests
+        </button>
+
+    </div>
+
+
+    <p class="note">
+        Demo weather values are currently used.
+        Live weather data and intelligent personalization will be connected
+        through the Python backend.
+    </p>
+
+</main>
+
+
+<script>
+
+
+/* GET USER INFORMATION */
+
+var userName = localStorage.getItem("userName");
+
+if (userName != null) {
+
+    document.getElementById("userName").innerHTML = userName;
+
+}
+
+
+/* GET LOCATION */
+
+var savedLocation = localStorage.getItem("selectedLocation");
+
+if (savedLocation != null) {
+
+    document.getElementById("locationName").innerHTML =
+        savedLocation;
+
+}
+
+
+/* GET SELECTED INTERESTS */
+
+var selectedInterests =
+    JSON.parse(localStorage.getItem("selectedInterests")) || [];
+
+
+/* CHANGE LOCATION */
+
+function changeLocation() {
+
+    var location =
+        document.getElementById("locationInput").value;
+
+    if (location != "") {
+
+        document.getElementById("locationName").innerHTML =
+            location;
+
+        localStorage.setItem(
+            "selectedLocation",
+            location
+        );
+
+    }
+
+}
+
+
+/* PERSONALIZED INTERPRETATION */
+
+var interpretation = "";
+
+
+if (selectedInterests.includes("Traveler")) {
+
+    interpretation +=
+        "<h3>✈️ Traveler</h3>" +
+        "<p>Rain probability increases later in the day. " +
+        "If you are travelling, consider completing outdoor travel " +
+        "activities before the evening rain period.</p>";
+
+}
+
+
+if (selectedInterests.includes("Health & Fitness")) {
+
+    interpretation +=
+        "<h3>🏃 Health & Fitness</h3>" +
+        "<p>Outdoor activity is more comfortable earlier in the day. " +
+        "UV is moderate and humidity is relatively high, so staying " +
+        "hydrated is important.</p>";
+
+}
+
+
+if (selectedInterests.includes("Farming")) {
+
+    interpretation +=
+        "<h3>🌾 Farming</h3>" +
+        "<p>Rain is expected to increase during the afternoon. " +
+        "Farm activities that are affected by rainfall should be " +
+        "planned around the expected rain period.</p>";
+
+}
+
+
+if (selectedInterests.includes("Family")) {
+
+    interpretation +=
+        "<h3>👨‍👩‍👧 Family</h3>" +
+        "<p>The weather is generally manageable, but increasing rain " +
+        "later in the day means outdoor family activities may need " +
+        "to be planned earlier.</p>";
+
+}
+
+
+if (selectedInterests.includes("Daily Commute")) {
+
+    interpretation +=
+        "<h3>🚗 Daily Commute</h3>" +
+        "<p>Rain probability becomes higher during the evening. " +
+        "Allow extra travel time and check conditions before leaving.</p>";
+
+}
+
+
+if (selectedInterests.includes("Events")) {
+
+    interpretation +=
+        "<h3>🎪 Events</h3>" +
+        "<p>Outdoor conditions are more suitable earlier in the day. " +
+        "Rain risk increases during the evening, so event organizers " +
+        "should consider a backup arrangement.</p>";
+
+}
+
+
+if (selectedInterests.includes("Daily Life")) {
+
+    interpretation +=
+        "<h3>🏠 Daily Life</h3>" +
+        "<p>Plan outdoor work before the evening because rain probability " +
+        "is expected to increase later in the day.</p>";
+
+}
+
+
+if (interpretation == "") {
+
+    interpretation =
+        "<h3>🌤️ General Weather</h3>" +
+        "<p>Rain probability is expected to increase later today. " +
+        "Plan outdoor activities accordingly.</p>";
+
+}
+
+
+document.getElementById("interpretation").innerHTML =
+    interpretation;
+
+
+/* PERSONALIZED FOCUS */
+
+var focusContainer =
+    document.getElementById("focusContainer");
+
+
+if (selectedInterests.includes("Traveler")) {
+
+    focusContainer.innerHTML +=
+        "<div class='focus-box'>" +
+        "<h3>✈️ Travel Focus</h3>" +
+        "<p>Rain probability: 75%</p>" +
+        "<p>Travel Safety: Monitor conditions</p>" +
+        "<p>Recommendation: Plan important outdoor travel before evening.</p>" +
+        "</div>";
+
+}
+
+
+if (selectedInterests.includes("Health & Fitness")) {
+
+    focusContainer.innerHTML +=
+        "<div class='focus-box'>" +
+        "<h3>🏃 Activity Focus</h3>" +
+        "<p>Outdoor activity: Suitable earlier</p>" +
+        "<p>UV Index: 6</p>" +
+        "<p>Humidity: 72%</p>" +
+        "<p>Recommendation: Stay hydrated and avoid peak UV periods.</p>" +
+        "</div>";
+
+}
+
+
+if (selectedInterests.includes("Farming")) {
+
+    focusContainer.innerHTML +=
+        "<div class='focus-box'>" +
+        "<h3>🌾 Farming Focus</h3>" +
+        "<p>Rain expected: 75%</p>" +
+        "<p>14-Day Rain Projection: 142 mm</p>" +
+        "<p>Sowing Window: Next 4–6 days</p>" +
+        "<p>Recommendation: Weather conditions should be checked before major farm activities.</p>" +
+        "</div>";
+
+}
+
+
+if (selectedInterests.includes("Family")) {
+
+    focusContainer.innerHTML +=
+        "<div class='focus-box'>" +
+        "<h3>👨‍👩‍👧 Family Focus</h3>" +
+        "<p>UV Index: 6</p>" +
+        "<p>AQI: Moderate</p>" +
+        "<p>Rain risk: Increasing later</p>" +
+        "<p>Recommendation: Plan outdoor family activities earlier.</p>" +
+        "</div>";
+
+}
+
+
+if (selectedInterests.includes("Daily Commute")) {
+
+    focusContainer.innerHTML +=
+        "<div class='focus-box'>" +
+        "<h3>🚗 Commute Focus</h3>" +
+        "<p>Rain risk: High later today</p>" +
+        "<p>Visibility: Monitor during rain</p>" +
+        "<p>Road spray risk: Possible</p>" +
+        "<p>Recommendation: Allow additional travel time.</p>" +
+        "</div>";
+
+}
+
+
+if (selectedInterests.includes("Events")) {
+
+    focusContainer.innerHTML +=
+        "<div class='focus-box'>" +
+        "<h3>🎪 Event Focus</h3>" +
+        "<p>Outdoor Suitability: Moderate</p>" +
+        "<p>Rain probability: 75%</p>" +
+        "<p>Wind: 12 km/h</p>" +
+        "<p>Recommendation: Keep an indoor/covered backup option.</p>" +
+        "</div>";
+
+}
+
+
+if (selectedInterests.includes("Daily Life")) {
+
+    focusContainer.innerHTML +=
+        "<div class='focus-box'>" +
+        "<h3>🏠 Daily Life Focus</h3>" +
+        "<p>Temperature: 28°C</p>" +
+        "<p>Rain probability: 75%</p>" +
+        "<p>Recommendation: Complete outdoor tasks earlier.</p>" +
+        "</div>";
+
+}
+
+
+/* NAVIGATION */
+
+function goHome() {
+
+    window.location.href = "home.html";
+
+}
+
+
+function goAlerts() {
+
+    window.location.href = "alerts.html";
+
+}
+
+
+function goHazards() {
+
+    window.location.href = "hazards.html";
+
+}
+
+
+function goReport() {
+
+    window.location.href = "report.html";
+
+}
+
+
+function goPersona() {
+
+    window.location.href = "persona.html";
+
+}
+
+
+</script>
+
+</body>
+</html>

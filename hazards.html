@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>MAUSAM - Safety & Hazards</title>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url("mausam-background.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: white;
+}
+
+.header {
+    background: rgba(0, 0, 0, 0.55);
+    padding: 18px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.user {
+    font-size: 15px;
+}
+
+.main {
+    width: 90%;
+    max-width: 1100px;
+    margin: 30px auto;
+}
+
+.title {
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #dbeafe;
+    margin-bottom: 25px;
+}
+
+
+/* DESTINATION SEARCH */
+
+.search-box {
+    background: rgba(0, 0, 0, 0.55);
+    padding: 25px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+}
+
+.search-box input {
+    width: 65%;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.search-box button {
+    padding: 13px 18px;
+    margin-left: 8px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+/* SAFETY SCORE */
+
+.safety-card {
+    background: rgba(0, 0, 0, 0.58);
+    padding: 28px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+}
+
+.score {
+    font-size: 55px;
+    font-weight: bold;
+}
+
+.status {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 20px;
+    background: rgba(76, 175, 80, 0.75);
+    font-weight: bold;
+}
+
+
+/* WEATHER CONDITIONS */
+
+.section {
+    background: rgba(0, 0, 0, 0.55);
+    padding: 25px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+}
+
+.section h2 {
+    margin-top: 0;
+}
+
+.condition-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.condition-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 18px;
+    border-radius: 12px;
+}
+
+.condition-card strong {
+    display: block;
+    font-size: 20px;
+    margin-top: 8px;
+}
+
+
+/* HAZARDS */
+
+.hazard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.hazard-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.hazard-card h3 {
+    margin-top: 0;
+}
+
+.high {
+    border-left: 5px solid #ff5252;
+}
+
+.medium {
+    border-left: 5px solid #ffd54f;
+}
+
+.low {
+    border-left: 5px solid #81c784;
+}
+
+
+/* PERSONALIZED */
+
+.personalized {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+    line-height: 1.6;
+}
+
+
+/* RECOMMENDATION */
+
+.recommendation {
+    background: rgba(255, 193, 7, 0.18);
+    border-left: 5px solid #ffd54f;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+
+/* MAP */
+
+.map-box {
+    height: 230px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 2px dashed rgba(255, 255, 255, 0.45);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+
+/* SOURCES */
+
+.sources {
+    line-height: 1.8;
+}
+
+
+/* NAVIGATION */
+
+.navigation {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.navigation button {
+    padding: 12px 18px;
+    margin: 5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+/* NOTE */
+
+.note {
+    color: #dbeafe;
+    font-size: 13px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+/* MOBILE */
+
+@media screen and (max-width: 800px) {
+
+    .condition-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hazard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .search-box input {
+        width: 90%;
+        margin-bottom: 10px;
+    }
+
+    .search-box button {
+        margin-left: 0;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <span class="logo">
+        MAUSAM
+    </span>
+
+    <span class="user">
+
+        Welcome,
+        <span id="userName">User</span>
+
+    </span>
+
+</header>
+
+
+
+<main class="main">
+
+
+<h1 class="title">
+    🛡️ Safety & Hazards
+</h1>
+
+<p class="subtitle">
+    Check weather-related risks before travelling or planning outdoor activities.
+</p>
+
+
+
+<!-- DESTINATION -->
+
+<section class="search-box">
+
+    <h2>
+        📍 Check a Destination
+    </h2>
+
+    <p>
+        Enter a destination to understand its current weather
+        conditions and potential travel risks.
+    </p>
+
+    <input
+        type="text"
+        id="destinationInput"
+        placeholder="Example: Pune"
+    >
+
+    <button onclick="checkDestination()">
+        Check Safety
+    </button>
+
+    <p>
+        Checking:
+        <strong id="destinationName">
+            No destination selected
+        </strong>
+    </p>
+
+</section>
+
+
+
+<!-- SAFETY RESULT -->
+
+<section class="safety-card">
+
+    <h2>
+        🧭 Destination Safety
+    </h2>
+
+    <div class="score">
+        <span id="safetyScore">88</span>/100
+    </div>
+
+    <span class="status">
+        GENERALLY SAFE
+    </span>
+
+    <p id="safetyMessage">
+
+        Current weather conditions do not indicate a major
+        immediate weather-related travel concern.
+
+    </p>
+
+</section>
+
+
+
+<!-- CONDITIONS -->
+
+<section class="section">
+
+    <h2>
+        🌦️ Destination Conditions
+    </h2>
+
+    <div class="condition-grid">
+
+
+        <div class="condition-card">
+
+            🌡️ Temperature
+
+            <strong>
+                29°C
+            </strong>
+
+        </div>
+
+
+        <div class="condition-card">
+
+            💧 Humidity
+
+            <strong>
+                68%
+            </strong>
+
+        </div>
+
+
+        <div class="condition-card">
+
+            💨 Wind
+
+            <strong>
+                14 km/h
+            </strong>
+
+        </div>
+
+
+        <div class="condition-card">
+
+            👁️ Visibility
+
+            <strong>
+                8 km
+            </strong>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- HAZARDS -->
+
+<section class="section">
+
+    <h2>
+        ⚠️ Weather-Related Hazards
+    </h2>
+
+    <div class="hazard-grid">
+
+
+        <div class="hazard-card high">
+
+            <h3>
+                🌧️ Heavy Rain
+            </h3>
+
+            <p>
+                Rain probability may increase during the
+                afternoon and evening.
+            </p>
+
+            <strong>
+                High
+            </strong>
+
+        </div>
+
+
+
+        <div class="hazard-card medium">
+
+            <h3>
+                🌊 Waterlogging
+            </h3>
+
+            <p>
+                Low-lying areas may experience temporary
+                water accumulation during heavy rainfall.
+            </p>
+
+            <strong>
+                Moderate
+            </strong>
+
+        </div>
+
+
+
+        <div class="hazard-card low">
+
+            <h3>
+                💨 Strong Wind
+            </h3>
+
+            <p>
+                Wind conditions are currently moderate.
+            </p>
+
+            <strong>
+                Low
+            </strong>
+
+        </div>
+
+
+
+        <div class="hazard-card low">
+
+            <h3>
+                🌫️ Low Visibility
+            </h3>
+
+            <p>
+                Visibility is currently around 8 km.
+            </p>
+
+            <strong>
+                Low
+            </strong>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- PERSONALIZED IMPACT -->
+
+<section class="section">
+
+    <h2>
+        🎯 Why This Matters To You
+    </h2>
+
+    <div
+        class="personalized"
+        id="personalizedSafety"
+    >
+
+        Loading personalized safety information...
+
+    </div>
+
+</section>
+
+
+
+<!-- RECOMMENDATION -->
+
+<section class="section">
+
+    <h2>
+        🧠 MAUSAM Recommendation
+    </h2>
+
+    <div class="recommendation">
+
+        <h3>
+            Plan Before You Travel
+        </h3>
+
+        <p>
+            Weather conditions can change during the day.
+            Check the expected rain period before starting
+            an outdoor journey.
+        </p>
+
+        <p>
+            If heavy rainfall occurs, avoid waterlogged roads
+            and follow official local advisories.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- MAP -->
+
+<section class="section">
+
+    <h2>
+        🗺️ Hazard Map
+    </h2>
+
+    <div class="map-box">
+
+        <div>
+
+            <h3>
+                Hazard Map
+            </h3>
+
+            <p>
+                Live map and location-based hazard layers
+                will be connected through the backend.
+            </p>
+
+            <p>
+                Future layers can include rain,
+                flooding, visibility and other weather risks.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- INFORMATION SOURCES -->
+
+<section class="section">
+
+    <h2>
+        ℹ️ Information Sources
+    </h2>
+
+    <div class="sources">
+
+        <p>
+            🌦️ <strong>Weather Data:</strong>
+            Forecast and current weather information
+        </p>
+
+        <p>
+            🚨 <strong>Official Alerts:</strong>
+            Important government weather warnings
+        </p>
+
+        <p>
+            👥 <strong>Community Reports:</strong>
+            Local observations reported by users
+        </p>
+
+        <p>
+            🕒 <strong>Last Updated:</strong>
+            Just now
+        </p>
+
+    </div>
+
+    <p>
+        Community reports are observations and should not
+        automatically be treated as official warnings.
+    </p>
+
+</section>
+
+
+
+<!-- NAVIGATION -->
+
+<div class="navigation">
+
+    <button onclick="goHome()">
+        🏠 Home
+    </button>
+
+    <button onclick="goWeather()">
+        🌦️ Weather
+    </button>
+
+    <button onclick="goAlerts()">
+        ⚠️ Alerts
+    </button>
+
+    <button onclick="goReport()">
+        📝 Report
+    </button>
+
+    <button onclick="goPersona()">
+        👤 Change Interests
+    </button>
+
+</div>
+
+
+
+<p class="note">
+
+    Destination safety is currently based on demo weather
+    conditions. Live weather, hazard data and maps will be
+    connected through the Python backend.
+
+</p>
+
+
+</main>
+
+
+
+<script>
+
+
+/* USER NAME */
+
+var userName =
+    localStorage.getItem("userName");
+
+
+if (userName != null) {
+
+    document.getElementById("userName").innerHTML =
+        userName;
+
+}
+
+
+
+/* SAVED DESTINATION */
+
+var savedDestination =
+    localStorage.getItem("watchedDestination");
+
+
+if (savedDestination != null) {
+
+    document.getElementById("destinationName").innerHTML =
+        savedDestination;
+
+}
+
+
+
+/* CHECK DESTINATION */
+
+function checkDestination() {
+
+    var destination =
+        document.getElementById("destinationInput").value;
+
+
+    if (destination != "") {
+
+        document.getElementById("destinationName").innerHTML =
+            destination;
+
+        localStorage.setItem(
+            "watchedDestination",
+            destination
+        );
+
+        document.getElementById("safetyMessage").innerHTML =
+
+            "Weather conditions for " +
+            destination +
+            " are currently being evaluated. " +
+            "The prototype shows a generally safe status " +
+            "while monitoring rainfall and visibility.";
+
+    }
+
+}
+
+
+
+/* SELECTED INTERESTS */
+
+var selectedInterests =
+    JSON.parse(
+        localStorage.getItem("selectedInterests")
+    ) || [];
+
+
+
+/* PERSONALIZED SAFETY */
+
+var safety =
+    document.getElementById("personalizedSafety");
+
+
+var message = "";
+
+
+
+if (selectedInterests.includes("Traveler")) {
+
+    message +=
+
+        "<h3>✈️ Traveler</h3>" +
+
+        "<p>" +
+        "Rain is the main weather factor to monitor " +
+        "for your journey. Visibility is currently " +
+        "around 8 km." +
+        "</p>" +
+
+        "<p>" +
+        "<strong>Travel impact:</strong> " +
+        "Plan outdoor sightseeing and travel around " +
+        "the expected rain period." +
+        "</p>";
+
+}
+
+
+
+if (selectedInterests.includes("Daily Commute")) {
+
+    message +=
+
+        "<h3>🚗 Daily Commute</h3>" +
+
+        "<p>" +
+        "Heavy rain can affect road visibility and " +
+        "increase waterlogging risk." +
+        "</p>" +
+
+        "<p>" +
+        "<strong>Commute impact:</strong> " +
+        "Check road conditions and allow additional " +
+        "travel time if rain becomes heavy." +
+        "</p>";
+
+}
+
+
+
+if (selectedInterests.includes("Health & Fitness")) {
+
+    message +=
+
+        "<h3>🏃 Health & Fitness</h3>" +
+
+        "<p>" +
+        "Outdoor activity may become less comfortable " +
+        "during heavy rainfall." +
+        "</p>" +
+
+        "<p>" +
+        "<strong>Activity impact:</strong> " +
+        "Consider an earlier activity window." +
+        "</p>";
+
+}
+
+
+
+if (selectedInterests.includes("Family")) {
+
+    message +=
+
+        "<h3>👨‍👩‍👧 Family</h3>" +
+
+        "<p>" +
+        "Rain and possible waterlogging can affect " +
+        "family travel and outdoor activities." +
+        "</p>" +
+
+        "<p>" +
+        "<strong>Family impact:</strong> " +
+        "Prefer safer indoor plans if rainfall becomes heavy." +
+        "</p>";
+
+}
+
+
+
+if (selectedInterests.includes("Farming")) {
+
+    message +=
+
+        "<h3>🌾 Farming</h3>" +
+
+        "<p>" +
+        "Rainfall conditions can influence irrigation " +
+        "and field activities." +
+        "</p>" +
+
+        "<p>" +
+        "<strong>Farm impact:</strong> " +
+        "Consider expected rainfall before scheduling " +
+        "water-dependent activities." +
+        "</p>";
+
+}
+
+
+
+if (selectedInterests.includes("Events")) {
+
+    message +=
+
+        "<h3>🎪 Events</h3>" +
+
+        "<p>" +
+        "Heavy rainfall can reduce outdoor event suitability." +
+        "</p>" +
+
+        "<p>" +
+        "<strong>Event impact:</strong> " +
+        "Keep a covered or indoor backup arrangement." +
+        "</p>";
+
+}
+
+
+
+if (selectedInterests.includes("Daily Life")) {
+
+    message +=
+
+        "<h3>🏠 Daily Life</h3>" +
+
+        "<p>" +
+        "Rain and temporary waterlogging may affect " +
+        "outdoor errands." +
+        "</p>" +
+
+        "<p>" +
+        "<strong>Daily impact:</strong> " +
+        "Complete important outdoor tasks earlier." +
+        "</p>";
+
+}
+
+
+
+if (message == "") {
+
+    message =
+
+        "<h3>🌦️ General Safety</h3>" +
+
+        "<p>" +
+        "Monitor rainfall, visibility and possible " +
+        "waterlogging before travelling." +
+        "</p>";
+
+}
+
+
+
+safety.innerHTML = message;
+
+
+
+/* NAVIGATION */
+
+
+function goHome() {
+
+    window.location.href =
+        "home.html";
+
+}
+
+
+function goWeather() {
+
+    window.location.href =
+        "weather.html";
+
+}
+
+
+function goAlerts() {
+
+    window.location.href =
+        "alerts.html";
+
+}
+
+
+function goReport() {
+
+    window.location.href =
+        "report.html";
+
+}
+
+
+function goPersona() {
+
+    window.location.href =
+        "persona.html";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

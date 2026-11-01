@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>MAUSAM - Weather Alerts</title>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url("mausam-background.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: white;
+}
+
+.header {
+    background: rgba(0, 0, 0, 0.55);
+    padding: 18px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.user {
+    font-size: 15px;
+}
+
+.main {
+    width: 90%;
+    max-width: 1100px;
+    margin: 30px auto;
+}
+
+.title {
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #dbeafe;
+    margin-bottom: 25px;
+}
+
+
+/* IMPORTANT ALERT */
+
+.important-alert {
+    background: rgba(120, 20, 20, 0.75);
+    border-left: 7px solid #ff5252;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+}
+
+.important-alert h2 {
+    margin-top: 0;
+}
+
+.alert-title {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.severity {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 20px;
+    background: #ff5252;
+    margin: 8px 0;
+    font-weight: bold;
+}
+
+
+/* PERSONALIZED IMPACT */
+
+.section {
+    background: rgba(0, 0, 0, 0.55);
+    padding: 25px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+}
+
+.section h2 {
+    margin-top: 0;
+}
+
+.impact-box {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 18px;
+    border-radius: 12px;
+    margin-top: 12px;
+}
+
+
+/* ACTION */
+
+.action-box {
+    background: rgba(255, 193, 7, 0.18);
+    border-left: 5px solid #ffd54f;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+
+/* ALERT CARDS */
+
+.alert-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.alert-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.alert-card h3 {
+    margin-top: 0;
+}
+
+.high {
+    border-left: 5px solid #ff5252;
+}
+
+.medium {
+    border-left: 5px solid #ffd54f;
+}
+
+.low {
+    border-left: 5px solid #81c784;
+}
+
+
+/* CONFIDENCE */
+
+.confidence {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+
+/* LOCATION */
+
+.location-box {
+    background: rgba(0, 0, 0, 0.55);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+}
+
+.location-box input {
+    width: 65%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.location-box button {
+    padding: 12px 18px;
+    margin-left: 8px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+/* NAVIGATION */
+
+.navigation {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.navigation button {
+    padding: 12px 18px;
+    margin: 5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+/* NOTE */
+
+.note {
+    color: #dbeafe;
+    font-size: 13px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+/* MOBILE */
+
+@media screen and (max-width: 800px) {
+
+    .alert-list {
+        grid-template-columns: 1fr;
+    }
+
+    .location-box input {
+        width: 90%;
+        margin-bottom: 10px;
+    }
+
+    .location-box button {
+        margin-left: 0;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <span class="logo">MAUSAM</span>
+
+    <span class="user">
+
+        Welcome,
+        <span id="userName">User</span>
+
+    </span>
+
+</header>
+
+
+
+<main class="main">
+
+
+<h1 class="title">
+    ⚠️ Weather Alerts
+</h1>
+
+<p class="subtitle">
+    Important weather information is prioritized according to your location and interests.
+</p>
+
+
+
+<!-- LOCATION -->
+
+<section class="location-box">
+
+    <h2>📍 Alert Location</h2>
+
+    <input
+        type="text"
+        id="locationInput"
+        placeholder="Enter another location"
+    >
+
+    <button onclick="changeLocation()">
+        Check Alerts
+    </button>
+
+    <p>
+
+        Showing alerts for:
+
+        <strong id="locationName">
+            Mumbai
+        </strong>
+
+    </p>
+
+</section>
+
+
+
+<!-- IMPORTANT ALERT -->
+
+<section class="important-alert">
+
+    <h2>
+        🚨 IMPORTANT WEATHER ALERT
+    </h2>
+
+    <div class="alert-title">
+        Heavy Rain Expected
+    </div>
+
+    <span class="severity">
+        HIGH PRIORITY
+    </span>
+
+    <p>
+        Rain probability is expected to increase significantly
+        during the afternoon and evening.
+    </p>
+
+    <p>
+
+        <strong>Expected period:</strong>
+
+        4 PM – 8 PM
+
+    </p>
+
+    <p>
+
+        <strong>Rain probability:</strong>
+
+        80%
+
+    </p>
+
+</section>
+
+
+
+<!-- WHY THIS MATTERS -->
+
+<section class="section">
+
+    <h2>
+        🎯 Why This Matters To You
+    </h2>
+
+    <div id="personalizedImpact">
+
+        Loading personalized information...
+
+    </div>
+
+</section>
+
+
+
+<!-- RECOMMENDED ACTION -->
+
+<section class="section">
+
+    <h2>
+        🧭 Recommended Action
+    </h2>
+
+    <div class="action-box">
+
+        <h3>
+            Plan Around the Rain Period
+        </h3>
+
+        <p>
+            If you have outdoor activities or travel planned,
+            consider completing them before the expected
+            heavy-rain period.
+        </p>
+
+        <p>
+            Continue checking official weather alerts when
+            conditions become severe.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- OTHER ALERTS -->
+
+<section class="section">
+
+    <h2>
+        📢 Other Weather Conditions
+    </h2>
+
+
+    <div class="alert-list">
+
+
+        <div class="alert-card high">
+
+            <h3>
+                🌧️ Heavy Rain
+            </h3>
+
+            <p>
+                Rain probability may reach 80% during the evening.
+            </p>
+
+            <strong>
+                High Priority
+            </strong>
+
+        </div>
+
+
+
+        <div class="alert-card medium">
+
+            <h3>
+                💨 Strong Wind
+            </h3>
+
+            <p>
+                Wind speed may increase during rain.
+            </p>
+
+            <strong>
+                Moderate Priority
+            </strong>
+
+        </div>
+
+
+
+        <div class="alert-card medium">
+
+            <h3>
+                ☀️ UV Index
+            </h3>
+
+            <p>
+                UV Index is currently around 6.
+            </p>
+
+            <strong>
+                Moderate
+            </strong>
+
+        </div>
+
+
+
+        <div class="alert-card low">
+
+            <h3>
+                🌡️ Temperature
+            </h3>
+
+            <p>
+                Temperature expected around 27–30°C.
+            </p>
+
+            <strong>
+                Low Priority
+            </strong>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- FORECAST CONFIDENCE -->
+
+<section class="section">
+
+    <h2>
+        📊 Forecast Confidence
+    </h2>
+
+    <p>
+        Confidence helps communicate how consistent the
+        forecast information currently is.
+    </p>
+
+    <p class="confidence">
+        High Confidence — 86%
+    </p>
+
+    <p>
+        The current rain trend is consistent across the
+        available forecast information.
+    </p>
+
+</section>
+
+
+
+<!-- ALERT PRIORITIZATION -->
+
+<section class="section">
+
+    <h2>
+        🧠 How MAUSAM Prioritizes Alerts
+    </h2>
+
+    <p>
+        MAUSAM does not simply display every weather value
+        equally.
+    </p>
+
+    <p>
+        Weather information can be prioritized using:
+    </p>
+
+    <ul>
+
+        <li>Your selected interests</li>
+
+        <li>Your location</li>
+
+        <li>Weather severity</li>
+
+        <li>Expected timing</li>
+
+        <li>Potential impact</li>
+
+    </ul>
+
+    <p>
+        This allows the most relevant information to appear first.
+    </p>
+
+</section>
+
+
+
+<!-- NAVIGATION -->
+
+<div class="navigation">
+
+    <button onclick="goHome()">
+        🏠 Home
+    </button>
+
+    <button onclick="goWeather()">
+        🌦️ Weather
+    </button>
+
+    <button onclick="goHazards()">
+        🛡️ Safety
+    </button>
+
+    <button onclick="goReport()">
+        📝 Report
+    </button>
+
+    <button onclick="goPersona()">
+        👤 Change Interests
+    </button>
+
+</div>
+
+
+
+<p class="note">
+
+    Demo alert values are currently used.
+    Official weather alerts and live data will be connected
+    through the backend.
+
+</p>
+
+
+</main>
+
+
+
+<script>
+
+
+/* USER NAME */
+
+var userName =
+    localStorage.getItem("userName");
+
+
+if (userName != null) {
+
+    document.getElementById("userName").innerHTML =
+        userName;
+
+}
+
+
+
+/* LOCATION */
+
+var savedLocation =
+    localStorage.getItem("selectedLocation");
+
+
+if (savedLocation != null) {
+
+    document.getElementById("locationName").innerHTML =
+        savedLocation;
+
+}
+
+
+
+/* CHANGE LOCATION */
+
+function changeLocation() {
+
+    var location =
+        document.getElementById("locationInput").value;
+
+
+    if (location != "") {
+
+        document.getElementById("locationName").innerHTML =
+            location;
+
+        localStorage.setItem(
+            "selectedLocation",
+            location
+        );
+
+    }
+
+}
+
+
+
+/* SELECTED INTERESTS */
+
+var selectedInterests =
+    JSON.parse(
+        localStorage.getItem("selectedInterests")
+    ) || [];
+
+
+
+/* PERSONALIZED ALERT INFORMATION */
+
+var impact = "";
+
+
+
+if (selectedInterests.includes("Traveler")) {
+
+    impact +=
+
+        "<div class='impact-box'>" +
+
+        "<h3>✈️ Traveler</h3>" +
+
+        "<p>" +
+        "Heavy rain during the evening may affect " +
+        "outdoor travel and visibility." +
+        "</p>" +
+
+        "<p>" +
+        "<strong>Impact:</strong> Plan important outdoor " +
+        "travel before the rain period." +
+        "</p>" +
+
+        "</div>";
+
+}
+
+
+
+if (selectedInterests.includes("Health & Fitness")) {
+
+    impact +=
+
+        "<div class='impact-box'>" +
+
+        "<h3>🏃 Health & Fitness</h3>" +
+
+        "<p>" +
+        "The evening rain may make outdoor running, cycling " +
+        "and gym activities less suitable." +
+        "</p>" +
+
+        "<p>" +
+        "<strong>Impact:</strong> Consider an earlier activity window." +
+        "</p>" +
+
+        "</div>";
+
+}
+
+
+
+if (selectedInterests.includes("Farming")) {
+
+    impact +=
+
+        "<div class='impact-box'>" +
+
+        "<h3>🌾 Farming</h3>" +
+
+        "<p>" +
+        "Expected rainfall may influence irrigation and " +
+        "other farm activities." +
+        "</p>" +
+
+        "<p>" +
+        "<strong>Impact:</strong> Check rainfall conditions " +
+        "before irrigation or field operations." +
+        "</p>" +
+
+        "</div>";
+
+}
+
+
+
+if (selectedInterests.includes("Family")) {
+
+    impact +=
+
+        "<div class='impact-box'>" +
+
+        "<h3>👨‍👩‍👧 Family</h3>" +
+
+        "<p>" +
+        "Heavy rain may affect outdoor family activities " +
+        "and evening travel." +
+        "</p>" +
+
+        "<p>" +
+        "<strong>Impact:</strong> Prefer indoor activities " +
+        "during the expected rain period." +
+        "</p>" +
+
+        "</div>";
+
+}
+
+
+
+if (selectedInterests.includes("Daily Commute")) {
+
+    impact +=
+
+        "<div class='impact-box'>" +
+
+        "<h3>🚗 Daily Commute</h3>" +
+
+        "<p>" +
+        "Heavy rain may reduce visibility and increase " +
+        "road-spray conditions." +
+        "</p>" +
+
+        "<p>" +
+        "<strong>Impact:</strong> Allow additional travel time." +
+        "</p>" +
+
+        "</div>";
+
+}
+
+
+
+if (selectedInterests.includes("Events")) {
+
+    impact +=
+
+        "<div class='impact-box'>" +
+
+        "<h3>🎪 Events</h3>" +
+
+        "<p>" +
+        "The evening rain may reduce outdoor event suitability." +
+        "</p>" +
+
+        "<p>" +
+        "<strong>Impact:</strong> Keep a covered or indoor " +
+        "backup arrangement." +
+        "</p>" +
+
+        "</div>";
+
+}
+
+
+
+if (selectedInterests.includes("Daily Life")) {
+
+    impact +=
+
+        "<div class='impact-box'>" +
+
+        "<h3>🏠 Daily Life</h3>" +
+
+        "<p>" +
+        "The expected rain may affect outdoor errands " +
+        "and daily activities." +
+        "</p>" +
+
+        "<p>" +
+        "<strong>Impact:</strong> Complete important outdoor " +
+        "tasks before the rain period." +
+        "</p>" +
+
+        "</div>";
+
+}
+
+
+
+if (impact == "") {
+
+    impact =
+
+        "<div class='impact-box'>" +
+
+        "<h3>🌦️ General Impact</h3>" +
+
+        "<p>" +
+        "Heavy rain may affect outdoor activities " +
+        "and evening travel." +
+        "</p>" +
+
+        "</div>";
+
+}
+
+
+
+document.getElementById(
+    "personalizedImpact"
+).innerHTML = impact;
+
+
+
+/* NAVIGATION FUNCTIONS */
+
+
+function goHome() {
+
+    window.location.href =
+        "home.html";
+
+}
+
+
+function goWeather() {
+
+    window.location.href =
+        "weather.html";
+
+}
+
+
+function goHazards() {
+
+    window.location.href =
+        "hazards.html";
+
+}
+
+
+function goReport() {
+
+    window.location.href =
+        "report.html";
+
+}
+
+
+function goPersona() {
+
+    window.location.href =
+        "persona.html";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

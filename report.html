@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>MAUSAM - Report Weather Condition</title>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url("mausam-background.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: white;
+}
+
+.header {
+    background: rgba(0, 0, 0, 0.55);
+    padding: 18px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.user {
+    font-size: 15px;
+}
+
+.main {
+    width: 90%;
+    max-width: 900px;
+    margin: 30px auto;
+}
+
+.title {
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #dbeafe;
+    margin-bottom: 25px;
+}
+
+
+/* FORM */
+
+.form-section {
+    background: rgba(0, 0, 0, 0.58);
+    padding: 28px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+}
+
+.form-section h2 {
+    margin-top: 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+}
+
+.form-group textarea {
+    height: 130px;
+    resize: vertical;
+}
+
+
+/* SEVERITY */
+
+.severity-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.severity-option {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.severity-option:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.severity-option input {
+    width: auto;
+    margin-right: 6px;
+}
+
+
+/* PHOTO */
+
+.photo-box {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 18px;
+    border-radius: 12px;
+}
+
+.photo-box input {
+    margin-top: 10px;
+}
+
+
+/* SUBMIT */
+
+.submit-button {
+    padding: 14px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+/* SUCCESS */
+
+.success-box {
+    display: none;
+    background: rgba(76, 175, 80, 0.25);
+    border-left: 5px solid #81c784;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+
+/* REPORT CARD */
+
+.report-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 15px;
+}
+
+.report-card strong {
+    color: #ffffff;
+}
+
+
+/* INFO */
+
+.info-box {
+    background: rgba(255, 193, 7, 0.15);
+    border-left: 5px solid #ffd54f;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+
+/* NAVIGATION */
+
+.navigation {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.navigation button {
+    padding: 12px 18px;
+    margin: 5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+/* NOTE */
+
+.note {
+    color: #dbeafe;
+    font-size: 13px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+/* MOBILE */
+
+@media screen and (max-width: 700px) {
+
+    .severity-options {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <span class="logo">
+        MAUSAM
+    </span>
+
+    <span class="user">
+
+        Welcome,
+        <span id="userName">User</span>
+
+    </span>
+
+</header>
+
+
+
+<main class="main">
+
+
+<h1 class="title">
+    📝 Report Weather Condition
+</h1>
+
+<p class="subtitle">
+
+    Share what you are observing around you.
+    Community observations can help provide additional
+    local context.
+
+</p>
+
+
+
+<!-- INFORMATION -->
+
+<section class="info-box">
+
+    <h3>
+        ℹ️ Important
+    </h3>
+
+    <p>
+
+        A community report is an observation from a user.
+        It is <strong>not automatically an official weather warning</strong>.
+
+    </p>
+
+    <p>
+
+        Official alerts should always be checked separately
+        when severe weather occurs.
+
+    </p>
+
+</section>
+
+
+
+<br>
+
+
+
+<!-- SUCCESS MESSAGE -->
+
+<section
+    class="success-box"
+    id="successMessage"
+>
+
+    <h3>
+        ✅ Report Submitted
+    </h3>
+
+    <p>
+
+        Your weather observation has been recorded
+        in this prototype.
+
+    </p>
+
+</section>
+
+
+
+<!-- REPORT FORM -->
+
+<section class="form-section">
+
+    <h2>
+        📍 Submit Your Observation
+    </h2>
+
+
+    <!-- LOCATION -->
+
+    <div class="form-group">
+
+        <label>
+            Location
+        </label>
+
+        <input
+            type="text"
+            id="reportLocation"
+            placeholder="Example: Mumbai"
+        >
+
+    </div>
+
+
+
+    <!-- HAZARD TYPE -->
+
+    <div class="form-group">
+
+        <label>
+            Weather Condition / Hazard
+        </label>
+
+        <select id="hazardType">
+
+            <option value="">
+                Select a condition
+            </option>
+
+            <option value="Heavy Rain">
+                🌧️ Heavy Rain
+            </option>
+
+            <option value="Waterlogging">
+                🌊 Waterlogging
+            </option>
+
+            <option value="Flooding">
+                🌊 Flooding
+            </option>
+
+            <option value="Strong Wind">
+                💨 Strong Wind
+            </option>
+
+            <option value="Low Visibility">
+                🌫️ Low Visibility
+            </option>
+
+            <option value="Lightning">
+                ⚡ Lightning
+            </option>
+
+            <option value="Hail">
+                🧊 Hail
+            </option>
+
+            <option value="Other">
+                🌦️ Other
+            </option>
+
+        </select>
+
+    </div>
+
+
+
+    <!-- DESCRIPTION -->
+
+    <div class="form-group">
+
+        <label>
+            What did you observe?
+        </label>
+
+        <textarea
+            id="description"
+            placeholder="Describe the weather condition you observed..."
+        ></textarea>
+
+    </div>
+
+
+
+    <!-- SEVERITY -->
+
+    <div class="form-group">
+
+        <label>
+            Severity
+        </label>
+
+
+        <div class="severity-options">
+
+
+            <label class="severity-option">
+
+                <input
+                    type="radio"
+                    name="severity"
+                    value="Low"
+                >
+
+                🟢 Low
+
+            </label>
+
+
+
+            <label class="severity-option">
+
+                <input
+                    type="radio"
+                    name="severity"
+                    value="Moderate"
+                >
+
+                🟡 Moderate
+
+            </label>
+
+
+
+            <label class="severity-option">
+
+                <input
+                    type="radio"
+                    name="severity"
+                    value="High"
+                >
+
+                🔴 High
+
+            </label>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PHOTO -->
+
+    <div class="form-group">
+
+        <label>
+            📷 Supporting Photo
+        </label>
+
+        <div class="photo-box">
+
+            <p>
+                Photos can provide additional evidence
+                for a community observation.
+            </p>
+
+            <input
+                type="file"
+                id="photo"
+                accept="image/*"
+            >
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SUBMIT -->
+
+    <button
+        class="submit-button"
+        onclick="submitReport()"
+    >
+
+        Submit Weather Report
+
+    </button>
+
+
+</section>
+
+
+
+<!-- LATEST REPORT -->
+
+<section
+    class="form-section"
+    id="latestReport"
+>
+
+    <h2>
+        📋 Latest Community Report
+    </h2>
+
+    <p>
+        No report submitted yet.
+    </p>
+
+</section>
+
+
+
+<!-- HOW IT HELPS -->
+
+<section class="form-section">
+
+    <h2>
+        👥 How Community Reports Can Help
+    </h2>
+
+    <p>
+        Local weather conditions can sometimes vary across
+        nearby areas.
+    </p>
+
+    <p>
+        Community observations can provide additional
+        ground-level context such as:
+    </p>
+
+    <ul>
+
+        <li>Local waterlogging</li>
+
+        <li>Heavy rainfall</li>
+
+        <li>Reduced visibility</li>
+
+        <li>Strong winds</li>
+
+        <li>Lightning observations</li>
+
+        <li>Other unusual weather conditions</li>
+
+    </ul>
+
+    <p>
+        In the future, the backend can process these reports
+        and display verified or relevant observations separately
+        from official weather alerts.
+    </p>
+
+</section>
+
+
+
+<!-- NAVIGATION -->
+
+<div class="navigation">
+
+    <button onclick="goHome()">
+        🏠 Home
+    </button>
+
+    <button onclick="goWeather()">
+        🌦️ Weather
+    </button>
+
+    <button onclick="goAlerts()">
+        ⚠️ Alerts
+    </button>
+
+    <button onclick="goHazards()">
+        🛡️ Safety
+    </button>
+
+    <button onclick="goPersona()">
+        👤 Change Interests
+    </button>
+
+</div>
+
+
+
+<p class="note">
+
+    Current reports are stored locally for this prototype.
+    They can later be sent to the Python backend and database.
+
+</p>
+
+
+</main>
+
+
+
+<script>
+
+
+/* USER NAME */
+
+var userName =
+    localStorage.getItem("userName");
+
+
+if (userName != null) {
+
+    document.getElementById("userName").innerHTML =
+        userName;
+
+}
+
+
+
+/* DEFAULT LOCATION */
+
+var savedLocation =
+    localStorage.getItem("selectedLocation");
+
+
+if (savedLocation != null) {
+
+    document.getElementById("reportLocation").value =
+        savedLocation;
+
+}
+
+
+
+/* SUBMIT REPORT */
+
+function submitReport() {
+
+
+    var location =
+        document.getElementById("reportLocation").value;
+
+
+    var hazard =
+        document.getElementById("hazardType").value;
+
+
+    var description =
+        document.getElementById("description").value;
+
+
+    var severityOptions =
+        document.getElementsByName("severity");
+
+
+    var severity = "";
+
+
+    for (
+        var i = 0;
+        i < severityOptions.length;
+        i++
+    ) {
+
+        if (severityOptions[i].checked) {
+
+            severity =
+                severityOptions[i].value;
+
+        }
+
+    }
+
+
+
+    /* BASIC VALIDATION */
+
+    if (
+        location == "" ||
+        hazard == "" ||
+        description == "" ||
+        severity == ""
+    ) {
+
+        alert(
+            "Please fill in all required fields."
+        );
+
+        return;
+
+    }
+
+
+
+    /* SAVE REPORT */
+
+    localStorage.setItem(
+        "reportLocation",
+        location
+    );
+
+    localStorage.setItem(
+        "reportHazard",
+        hazard
+    );
+
+    localStorage.setItem(
+        "reportDescription",
+        description
+    );
+
+    localStorage.setItem(
+        "reportSeverity",
+        severity
+    );
+
+
+
+    /* SHOW SUCCESS */
+
+    document.getElementById(
+        "successMessage"
+    ).style.display = "block";
+
+
+
+    /* SHOW REPORT */
+
+    showLatestReport();
+
+}
+
+
+
+/* DISPLAY LATEST REPORT */
+
+function showLatestReport() {
+
+
+    var location =
+        localStorage.getItem("reportLocation");
+
+
+    var hazard =
+        localStorage.getItem("reportHazard");
+
+
+    var description =
+        localStorage.getItem("reportDescription");
+
+
+    var severity =
+        localStorage.getItem("reportSeverity");
+
+
+
+    if (
+        location != null &&
+        hazard != null &&
+        description != null &&
+        severity != null
+    ) {
+
+
+        document.getElementById(
+            "latestReport"
+        ).innerHTML =
+
+
+        "<h2>📋 Latest Community Report</h2>" +
+
+
+        "<div class='report-card'>" +
+
+        "<p>" +
+        "<strong>📍 Location:</strong> " +
+        location +
+        "</p>" +
+
+
+        "<p>" +
+        "<strong>⚠️ Condition:</strong> " +
+        hazard +
+        "</p>" +
+
+
+        "<p>" +
+        "<strong>🚦 Severity:</strong> " +
+        severity +
+        "</p>" +
+
+
+        "<p>" +
+        "<strong>📝 Observation:</strong> " +
+        description +
+        "</p>" +
+
+
+        "<p>" +
+        "<strong>👥 Source:</strong> " +
+        "Community Observation" +
+        "</p>" +
+
+
+        "</div>";
+
+    }
+
+}
+
+
+
+/* LOAD PREVIOUS REPORT */
+
+showLatestReport();
+
+
+
+/* NAVIGATION */
+
+
+function goHome() {
+
+    window.location.href =
+        "home.html";
+
+}
+
+
+function goWeather() {
+
+    window.location.href =
+        "weather.html";
+
+}
+
+
+function goAlerts() {
+
+    window.location.href =
+        "alerts.html";
+
+}
+
+
+function goHazards() {
+
+    window.location.href =
+        "hazards.html";
+
+}
+
+
+function goPersona() {
+
+    window.location.href =
+        "persona.html";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

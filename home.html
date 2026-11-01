@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MAUSAM - Personalized Weather</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            min-height: 100vh;
+
+            background-image:
+                linear-gradient(rgba(0, 30, 60, 0.45), rgba(0, 20, 45, 0.68)),
+                url("mausam-background.png");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            padding: 18px 50px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            background: rgba(0, 20, 45, 0.45);
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.20);
+
+            backdrop-filter: blur(8px);
+        }
+
+
+        .logo {
+            font-size: 29px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+
+        .logo span {
+            color: #8ed8ff;
+        }
+
+
+        .profile {
+            text-align: right;
+        }
+
+
+        .profile-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+
+        .profile-info {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        main {
+            width: 92%;
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 35px 0 60px;
+        }
+
+
+        .welcome {
+            margin-bottom: 5px;
+
+            font-size: 16px;
+
+            color: #d8f3ff;
+        }
+
+
+        h1 {
+            margin: 5px 0 8px;
+
+            font-size: 38px;
+        }
+
+
+        .subtitle {
+            margin-top: 0;
+
+            color: #dcefff;
+
+            font-size: 16px;
+        }
+
+
+        /* =========================
+           LOCATION
+        ========================= */
+
+        .location-box {
+
+            margin-top: 25px;
+
+            padding: 18px 20px;
+
+            border-radius: 18px;
+
+            background: rgba(255, 255, 255, 0.12);
+
+            border: 1px solid rgba(255, 255, 255, 0.20);
+
+            backdrop-filter: blur(10px);
+        }
+
+
+        .location-title {
+            font-size: 13px;
+            opacity: 0.75;
+        }
+
+
+        .location-name {
+            margin-top: 5px;
+
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+
+        .location-search {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 15px;
+        }
+
+
+        .location-search input {
+
+            flex: 1;
+
+            padding: 12px 15px;
+
+            border-radius: 10px;
+
+            border: none;
+
+            font-size: 14px;
+
+            outline: none;
+        }
+
+
+        .location-search button {
+
+            padding: 12px 20px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: white;
+
+            color: #07527c;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           CURRENT WEATHER
+        ========================= */
+
+        .weather-card {
+
+            margin-top: 20px;
+
+            padding: 25px;
+
+            border-radius: 22px;
+
+            background: rgba(255, 255, 255, 0.14);
+
+            border: 1px solid rgba(255, 255, 255, 0.22);
+
+            backdrop-filter: blur(10px);
+        }
+
+
+        .weather-main {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+
+        .temperature {
+
+            font-size: 58px;
+
+            font-weight: bold;
+        }
+
+
+        .condition {
+
+            font-size: 18px;
+
+            color: #dff6ff;
+
+            margin-top: 5px;
+        }
+
+
+        .weather-icon {
+
+            font-size: 60px;
+        }
+
+
+        .weather-stats {
+
+            display: grid;
+
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 12px;
+
+            margin-top: 25px;
+        }
+
+
+        .stat {
+
+            padding: 15px;
+
+            border-radius: 14px;
+
+            background: rgba(255, 255, 255, 0.09);
+
+            text-align: center;
+        }
+
+
+        .stat-title {
+
+            font-size: 12px;
+
+            opacity: 0.7;
+        }
+
+
+        .stat-value {
+
+            margin-top: 5px;
+
+            font-size: 18px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           PERSONALIZED SECTION
+        ========================= */
+
+        .section-title {
+
+            margin-top: 35px;
+
+            margin-bottom: 15px;
+
+            font-size: 24px;
+        }
+
+
+        .section-subtitle {
+
+            margin-top: -8px;
+
+            margin-bottom: 18px;
+
+            color: #d8efff;
+
+            font-size: 14px;
+        }
+
+
+        .personalized-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 18px;
+        }
+
+
+        .info-card {
+
+            padding: 22px;
+
+            border-radius: 19px;
+
+            background: rgba(255, 255, 255, 0.12);
+
+            border: 1px solid rgba(255, 255, 255, 0.20);
+
+            backdrop-filter: blur(10px);
+        }
+
+
+        .card-icon {
+
+            font-size: 30px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .card-title {
+
+            font-size: 19px;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+
+        .card-value {
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+            margin-bottom: 7px;
+        }
+
+
+        .card-text {
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            color: #dcefff;
+        }
+
+
+        .good {
+
+            color: #a9f0c5;
+        }
+
+
+        .warning {
+
+            color: #ffe29a;
+        }
+
+
+        .danger {
+
+            color: #ffb1b1;
+        }
+
+
+        /* =========================
+           TIMELINE
+        ========================= */
+
+        .timeline {
+
+            display: grid;
+
+            grid-template-columns: repeat(5, 1fr);
+
+            gap: 10px;
+
+            margin-top: 15px;
+        }
+
+
+        .time-card {
+
+            padding: 15px 10px;
+
+            text-align: center;
+
+            border-radius: 14px;
+
+            background: rgba(255, 255, 255, 0.09);
+        }
+
+
+        .time {
+
+            font-size: 13px;
+
+            opacity: 0.75;
+        }
+
+
+        .time-icon {
+
+            font-size: 25px;
+
+            margin: 7px 0;
+        }
+
+
+        .time-temp {
+
+            font-weight: bold;
+
+            font-size: 16px;
+        }
+
+
+        .time-rain {
+
+            font-size: 12px;
+
+            margin-top: 5px;
+
+            color: #c9efff;
+        }
+
+
+        /* =========================
+           PRIORITY ALERT
+        ========================= */
+
+        .priority-alert {
+
+            margin-top: 18px;
+
+            padding: 20px;
+
+            border-radius: 18px;
+
+            background: rgba(255, 185, 80, 0.14);
+
+            border: 1px solid rgba(255, 220, 150, 0.40);
+        }
+
+
+        .priority-title {
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            margin-bottom: 7px;
+        }
+
+
+        .priority-text {
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            color: #fff0c7;
+        }
+
+
+        /* =========================
+           EXTRA INFORMATION
+        ========================= */
+
+        .extra-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 15px;
+
+            margin-top: 18px;
+        }
+
+
+        .extra-card {
+
+            padding: 18px;
+
+            border-radius: 16px;
+
+            background: rgba(255, 255, 255, 0.10);
+
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+
+        .extra-card h3 {
+
+            margin-top: 0;
+
+            font-size: 16px;
+        }
+
+
+        .extra-card p {
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+            color: #dcefff;
+        }
+
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        .navigation {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+            margin-top: 35px;
+        }
+
+
+        .navigation button {
+
+            padding: 11px 18px;
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+
+            border-radius: 12px;
+
+            background: rgba(255, 255, 255, 0.12);
+
+            color: white;
+
+            cursor: pointer;
+        }
+
+
+        .navigation button:hover {
+
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+
+        /* =========================
+           NOTE
+        ========================= */
+
+        .prototype-note {
+
+            margin-top: 25px;
+
+            padding: 15px;
+
+            border-radius: 14px;
+
+            background: rgba(0, 0, 0, 0.18);
+
+            color: #cce9f7;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 750px) {
+
+            header {
+
+                padding: 16px 20px;
+
+            }
+
+
+            .logo {
+
+                font-size: 23px;
+
+            }
+
+
+            main {
+
+                width: 92%;
+
+            }
+
+
+            h1 {
+
+                font-size: 30px;
+
+            }
+
+
+            .weather-main {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+            }
+
+
+            .weather-stats {
+
+                grid-template-columns: repeat(2, 1fr);
+
+            }
+
+
+            .personalized-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .timeline {
+
+                grid-template-columns: repeat(2, 1fr);
+
+            }
+
+
+            .extra-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .location-search {
+
+                flex-direction: column;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header>
+
+        <div class="logo">
+            <span>☁</span> MAUSAM
+        </div>
+
+
+        <div class="profile">
+
+            <div class="profile-name" id="userName">
+                User
+            </div>
+
+            <div class="profile-info" id="userPersona">
+                Personalized Weather
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main>
+
+
+        <div class="welcome" id="welcomeText">
+            Welcome back
+        </div>
+
+
+        <h1>
+            Your Weather, Your Way
+        </h1>
+
+
+        <p class="subtitle" id="personalizedSubtitle">
+            Weather information prioritized for you.
+        </p>
+
+
+
+        <!-- =========================
+             LOCATION
+        ========================= -->
+
+        <div class="location-box">
+
+            <div class="location-title">
+                CURRENT LOCATION
+            </div>
+
+
+            <div class="location-name" id="locationName">
+                📍 Mumbai, Maharashtra
+            </div>
+
+
+            <div class="location-search">
+
+                <input
+                    type="text"
+                    id="locationInput"
+                    placeholder="Check another location"
+                >
+
+
+                <button onclick="changeLocation()">
+                    Check
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             CURRENT WEATHER
+        ========================= -->
+
+        <div class="weather-card">
+
+            <div class="weather-main">
+
+                <div>
+
+                    <div class="temperature">
+                        28°C
+                    </div>
+
+                    <div class="condition">
+                        ☁️ Partly Cloudy
+                    </div>
+
+                </div>
+
+
+                <div class="weather-icon">
+                    🌤️
+                </div>
+
+            </div>
+
+
+
+            <div class="weather-stats">
+
+
+                <div class="stat">
+
+                    <div class="stat-title">
+                        HUMIDITY
+                    </div>
+
+                    <div class="stat-value">
+                        72%
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-title">
+                        WIND
+                    </div>
+
+                    <div class="stat-value">
+                        12 km/h
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-title">
+                        RAIN CHANCE
+                    </div>
+
+                    <div class="stat-value">
+                        75%
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-title">
+                        UV INDEX
+                    </div>
+
+                    <div class="stat-value">
+                        6
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             PERSONALIZED INFORMATION
+        ========================= -->
+
+        <h2 class="section-title">
+            ✨ Important for You
+        </h2>
+
+
+        <p class="section-subtitle">
+            MAUSAM has prioritized this information based on what matters to you.
+        </p>
+
+
+        <div class="personalized-grid" id="personalizedContent">
+        </div>
+
+
+
+        <!-- =========================
+             WEATHER TIMELINE
+        ========================= -->
+
+        <h2 class="section-title">
+            🕐 Weather Timeline
+        </h2>
+
+
+        <p class="section-subtitle">
+            See how today's weather is expected to change.
+        </p>
+
+
+        <div class="timeline">
+
+
+            <div class="time-card">
+
+                <div class="time">
+                    NOW
+                </div>
+
+                <div class="time-icon">
+                    ☁️
+                </div>
+
+                <div class="time-temp">
+                    28°C
+                </div>
+
+                <div class="time-rain">
+                    Rain 35%
+                </div>
+
+            </div>
+
+
+            <div class="time-card">
+
+                <div class="time">
+                    2 PM
+                </div>
+
+                <div class="time-icon">
+                    🌦️
+                </div>
+
+                <div class="time-temp">
+                    29°C
+                </div>
+
+                <div class="time-rain">
+                    Rain 55%
+                </div>
+
+            </div>
+
+
+            <div class="time-card">
+
+                <div class="time">
+                    4 PM
+                </div>
+
+                <div class="time-icon">
+                    🌧️
+                </div>
+
+                <div class="time-temp">
+                    28°C
+                </div>
+
+                <div class="time-rain">
+                    Rain 75%
+                </div>
+
+            </div>
+
+
+            <div class="time-card">
+
+                <div class="time">
+                    6 PM
+                </div>
+
+                <div class="time-icon">
+                    🌧️
+                </div>
+
+                <div class="time-temp">
+                    27°C
+                </div>
+
+                <div class="time-rain">
+                    Rain 80%
+                </div>
+
+            </div>
+
+
+            <div class="time-card">
+
+                <div class="time">
+                    8 PM
+                </div>
+
+                <div class="time-icon">
+                    🌦️
+                </div>
+
+                <div class="time-temp">
+                    26°C
+                </div>
+
+                <div class="time-rain">
+                    Rain 60%
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             PRIORITY ALERT
+        ========================= -->
+
+        <div class="priority-alert">
+
+            <div class="priority-title">
+                ⚠️ Important Weather Change
+            </div>
+
+
+            <div class="priority-text">
+
+                Rain probability is expected to increase during the evening.
+                MAUSAM has highlighted this because changing weather conditions
+                may affect your selected interests.
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             ADDITIONAL INFORMATION
+        ========================= -->
+
+        <h2 class="section-title">
+            📊 Weather Intelligence
+        </h2>
+
+
+        <div class="extra-grid">
+
+
+            <div class="extra-card">
+
+                <h3>
+                    📈 Weather Change
+                </h3>
+
+                <p>
+                    Rain probability is increasing from afternoon
+                    towards the evening.
+                </p>
+
+            </div>
+
+
+            <div class="extra-card">
+
+                <h3>
+                    🎯 Personal Interpretation
+                </h3>
+
+                <p id="interpretationText">
+                    Weather information is being interpreted
+                    according to your selected interests.
+                </p>
+
+            </div>
+
+
+            <div class="extra-card">
+
+                <h3>
+                    📊 Forecast Confidence
+                </h3>
+
+                <p>
+                    Demo confidence: High for the current
+                    weather information.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             NAVIGATION
+        ========================= -->
+
+        <div class="navigation">
+
+            <button onclick="goToWeather()">
+                🌦 Weather Details
+            </button>
+
+
+            <button onclick="goToAlerts()">
+                ⚠️ Alerts
+            </button>
+
+
+            <button onclick="goToHazards()">
+                🛡 Safety & Hazards
+            </button>
+
+
+            <button onclick="goToReport()">
+                📝 Report Hazard
+            </button>
+
+
+            <button onclick="changePreferences()">
+                ⚙ Change Interests
+            </button>
+
+        </div>
+
+
+
+        <!-- =========================
+             PROTOTYPE NOTE
+        ========================= -->
+
+        <div class="prototype-note">
+
+            <strong>Prototype:</strong>
+
+            The weather values currently shown are demonstration data.
+            In the next stage, the Python backend will provide live weather,
+            forecast, alert, hazard and personalized information.
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+
+        /* =====================================
+           USER INFORMATION
+        ===================================== */
+
+        var userName =
+            localStorage.getItem("userName");
+
+
+        var userCity =
+            localStorage.getItem("userCity");
+
+
+        var personaName =
+            localStorage.getItem("personaName");
+
+
+        var selectedInterests =
+            localStorage.getItem("selectedInterests");
+
+
+
+        /* =====================================
+           CONVERT STORED INTERESTS
+        ===================================== */
+
+        if (selectedInterests) {
+
+            selectedInterests =
+                JSON.parse(selectedInterests);
+
+        }
+
+        else {
+
+            selectedInterests = [];
+
+        }
+
+
+
+        /* =====================================
+           DISPLAY USER
+        ===================================== */
+
+        if (userName) {
+
+            document.getElementById("userName").innerHTML =
+                userName;
+
+            document.getElementById("welcomeText").innerHTML =
+                "Welcome back, " + userName + "!";
+
+        }
+
+
+        if (personaName) {
+
+            document.getElementById("userPersona").innerHTML =
+                personaName;
+
+        }
+
+
+
+        /* =====================================
+           LOCATION
+        ===================================== */
+
+        if (userCity) {
+
+            document.getElementById("locationName").innerHTML =
+                "📍 " + userCity;
+
+        }
+
+
+
+        /* =====================================
+           PERSONA INFORMATION
+        ===================================== */
+
+        var personaData = {
+
+
+            traveler: {
+
+                title: "✈️ Travel Conditions",
+
+                value: "Travel Safety 88%",
+
+                className: "good",
+
+                text:
+                    "Current weather conditions are generally suitable for travel. " +
+                    "Keep rain protection with you because rain probability may increase later today."
+
+            },
+
+
+            health: {
+
+                title: "🏃 Outdoor Activity",
+
+                value: "Suitable",
+
+                className: "good",
+
+                text:
+                    "Current temperature and wind conditions are suitable for outdoor activity. " +
+                    "UV is moderate. Consider outdoor activity during the more comfortable hours."
+
+            },
+
+
+            farmer: {
+
+                title: "🌾 Farming Intelligence",
+
+                value: "Crop-Weather Fit 92%",
+
+                className: "good",
+
+                text:
+                    "Rainfall conditions are currently favorable for selected crops. " +
+                    "Expected rainfall may reduce the need for additional irrigation."
+
+            },
+
+
+            family: {
+
+                title: "👨‍👩‍👧 Family Safety",
+
+                value: "Generally Comfortable",
+
+                className: "good",
+
+                text:
+                    "Current conditions are generally comfortable for family activities. " +
+                    "Keep an eye on the increasing rain probability during the evening."
+
+            },
+
+
+            commuter: {
+
+                title: "🚌 Commute Conditions",
+
+                value: "Attention Later",
+
+                className: "warning",
+
+                text:
+                    "Rain probability is increasing later today. " +
+                    "Visibility and road conditions may become less comfortable during the evening commute."
+
+            },
+
+
+            events: {
+
+                title: "🎪 Event Suitability",
+
+                value: "Moderate",
+
+                className: "warning",
+
+                text:
+                    "Outdoor conditions are currently manageable, but increasing rain probability " +
+                    "may affect events later today. Keep an indoor alternative ready."
+
+            },
+
+
+            daily: {
+
+                title: "🏠 Daily Life",
+
+                value: "Plan Ahead",
+
+                className: "warning",
+
+                text:
+                    "Current weather is manageable, but rain is more likely later today. " +
+                    "Carry rain protection if you are going outdoors."
+
+            }
+
+        };
+
+
+
+        /* =====================================
+           CREATE PERSONALIZED CARDS
+        ===================================== */
+
+        function createPersonalizedCards() {
+
+
+            var container =
+                document.getElementById("personalizedContent");
+
+
+            container.innerHTML = "";
+
+
+            if (selectedInterests.length === 0) {
+
+                selectedInterests.push("daily");
+
+            }
+
+
+
+            for (
+                var i = 0;
+                i < selectedInterests.length;
+                i++
+            ) {
+
+
+                var interest =
+                    selectedInterests[i];
+
+
+                var data =
+                    personaData[interest];
+
+
+                if (data) {
+
+
+                    var card =
+                        document.createElement("div");
+
+
+                    card.className =
+                        "info-card";
+
+
+                    card.innerHTML =
+
+                        "<div class='card-icon'>" +
+                        getIcon(interest) +
+                        "</div>" +
+
+                        "<div class='card-title'>" +
+                        data.title +
+                        "</div>" +
+
+                        "<div class='card-value " +
+                        data.className +
+                        "'>" +
+                        data.value +
+                        "</div>" +
+
+                        "<div class='card-text'>" +
+                        data.text +
+                        "</div>";
+
+
+                    container.appendChild(card);
+
+                }
+
+            }
+
+        }
+
+
+
+        /* =====================================
+           GET ICON
+        ===================================== */
+
+        function getIcon(interest) {
+
+
+            if (interest == "traveler") {
+
+                return "✈️";
+
+            }
+
+
+            if (interest == "health") {
+
+                return "🏃";
+
+            }
+
+
+            if (interest == "farmer") {
+
+                return "🌾";
+
+            }
+
+
+            if (interest == "family") {
+
+                return "👨‍👩‍👧";
+
+            }
+
+
+            if (interest == "commuter") {
+
+                return "🚌";
+
+            }
+
+
+            if (interest == "events") {
+
+                return "🎪";
+
+            }
+
+
+            return "🏠";
+
+        }
+
+
+
+        /* =====================================
+           PERSONALIZED SUBTITLE
+        ===================================== */
+
+        function updateSubtitle() {
+
+
+            var subtitle =
+                document.getElementById(
+                    "personalizedSubtitle"
+                );
+
+
+            if (selectedInterests.length == 1) {
+
+                subtitle.innerHTML =
+                    "MAUSAM is prioritizing weather information for your selected interest.";
+
+            }
+
+            else {
+
+                subtitle.innerHTML =
+                    "MAUSAM is combining your selected interests to prioritize the most relevant information.";
+
+            }
+
+        }
+
+
+
+        /* =====================================
+           PERSONAL INTERPRETATION
+        ===================================== */
+
+        function updateInterpretation() {
+
+
+            var text =
+                document.getElementById(
+                    "interpretationText"
+                );
+
+
+            if (
+                selectedInterests.indexOf("farmer")
+                != -1
+            ) {
+
+                text.innerHTML =
+                    "Rainfall and upcoming weather are being interpreted " +
+                    "from a farming perspective, including irrigation and crop planning.";
+
+                return;
+
+            }
+
+
+            if (
+                selectedInterests.indexOf("commuter")
+                != -1
+            ) {
+
+                text.innerHTML =
+                    "The forecast is being interpreted according to " +
+                    "possible effects on visibility, rain and daily travel.";
+
+                return;
+
+            }
+
+
+            if (
+                selectedInterests.indexOf("health")
+                != -1
+            ) {
+
+                text.innerHTML =
+                    "Temperature, UV, wind and outdoor conditions are " +
+                    "being interpreted for healthier activity planning.";
+
+                return;
+
+            }
+
+
+            if (
+                selectedInterests.indexOf("traveler")
+                != -1
+            ) {
+
+                text.innerHTML =
+                    "Weather conditions are being interpreted according " +
+                    "to travel comfort and possible destination conditions.";
+
+                return;
+
+            }
+
+
+            text.innerHTML =
+                "Weather information is being interpreted according " +
+                "to your selected interests.";
+
+        }
+
+
+
+        /* =====================================
+           CHANGE LOCATION
+        ===================================== */
+
+        function changeLocation() {
+
+
+            var input =
+                document.getElementById(
+                    "locationInput"
+                );
+
+
+            var newLocation =
+                input.value.trim();
+
+
+            if (newLocation == "") {
+
+                alert("Please enter a location.");
+
+                return;
+
+            }
+
+
+            localStorage.setItem(
+                "selectedLocation",
+                newLocation
+            );
+
+
+            document.getElementById(
+                "locationName"
+            ).innerHTML =
+                "📍 " + newLocation;
+
+
+            input.value = "";
+
+        }
+
+
+
+        /* =====================================
+           NAVIGATION
+        ===================================== */
+
+        function goToWeather() {
+
+            window.location.href =
+                "weather.html";
+
+        }
+
+
+        function goToAlerts() {
+
+            window.location.href =
+                "alerts.html";
+
+        }
+
+
+        function goToHazards() {
+
+            window.location.href =
+                "hazards.html";
+
+        }
+
+
+        function goToReport() {
+
+            window.location.href =
+                "report.html";
+
+        }
+
+
+        function changePreferences() {
+
+            window.location.href =
+                "persona.html";
+
+        }
+
+
+
+        /* =====================================
+           START PAGE
+        ===================================== */
+
+        createPersonalizedCards();
+
+        updateSubtitle();
+
+        updateInterpretation();
+
+
+    </script>
+
+
+</body>
+
+</html>
